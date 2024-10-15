@@ -1,4 +1,4 @@
-#csetup fastapi 
+# setup fastapi 
 pip install fastapi[all]==0.112.0
 pip install fastapi[standard]==0.112.0
 
