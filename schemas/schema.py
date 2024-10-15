@@ -22,3 +22,15 @@ class LoginResponseSchema(BaseModel):
 class LoginRequestSchema(BaseModel):
     username: str
     password: str
+
+# register user
+class RegisterRequestSchema(BaseModel):
+    username: str
+    password: str
+
+class RegisterResponseSchema(BaseModel):
+    id: int
+    username: str
+
+    class Config:
+        orm_mode = True

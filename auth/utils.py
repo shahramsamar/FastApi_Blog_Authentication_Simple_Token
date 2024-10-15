@@ -3,6 +3,8 @@ from models import AuthModel,TokenModel
 from datetime import datetime,timezone,timedelta
 import random
 import string
+from passlib.context import CryptContext
+
 
 def authenticate_user(db,username,password):
     user = db.query(AuthModel).filter(AuthModel.username == username).first()
@@ -26,3 +28,13 @@ def generate_token(db,user):
         db.commit()
         db.refresh(token_obj)
     return token
+
+
+# Set up password hashing context
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def get_password_hash(password: str) -> str:
+    return pwd_context.hash(password)
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)

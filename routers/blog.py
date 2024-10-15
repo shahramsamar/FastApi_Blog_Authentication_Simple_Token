@@ -21,7 +21,7 @@ async def names_list(user : bool = Depends(TokenBearer()),search: Optional[str] 
     return data
 
 @router.post("/names",response_model=ResponseNamesSchema,status_code=status.HTTP_201_CREATED)
-async def names_create(request:NamesSchema,db:Session =Depends(get_db)):
+async def names_create(request:NamesSchema, user : bool = Depends(TokenBearer()),db:Session =Depends(get_db)):
     student_obj = UserModel(name=request.name,first_name=request.first_name,last_name=request.last_name)
     db.add(student_obj)
     db.commit()
@@ -32,6 +32,7 @@ async def names_create(request:NamesSchema,db:Session =Depends(get_db)):
 @router.get("/names/{item_id}",response_model=ResponseNamesSchema,
             status_code=status.HTTP_200_OK)
 async def names_detail(item_id: int = Path(description="something cool"),
+                       user : bool = Depends(TokenBearer()), 
                        db:Session =Depends(get_db)):
     student_obj = db.query(UserModel).filter(UserModel.id == item_id).one_or_none()
     
@@ -45,7 +46,8 @@ async def names_detail(item_id: int = Path(description="something cool"),
 @router.put("/names/{item_id}",response_model=ResponseNamesSchema,
             status_code=status.HTTP_200_OK)
 async def names_update(item_id: int, request:NamesSchema,
-                       db:Session =Depends(get_db)):
+                        user : bool = Depends(TokenBearer()),
+                        db:Session =Depends(get_db)):
     student_obj = db.query(UserModel).filter(UserModel.id == item_id).one_or_none()
     
     if not student_obj:
@@ -58,7 +60,8 @@ async def names_update(item_id: int, request:NamesSchema,
 
 
 @router.delete("/names/{item_id}")
-async def names_delete(item_id: int,db:Session =Depends(get_db)):
+async def names_delete(item_id: int, user : bool = Depends(TokenBearer()),
+                       db:Session =Depends(get_db)):
     student_obj = db.query(UserModel).filter(UserModel.id == item_id).one_or_none()
     
     if not student_obj:
