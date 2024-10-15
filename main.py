@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from database.database import initiate_database
 from routers.blog import router as blog_router
-# from routers.basic_auth import router as auth_router
+from routers.auth import router as auth_router
 # from .meta_tag import meta_tags
 
 
@@ -26,5 +26,5 @@ app = FastAPI(
 
 
 
-# app.include_router(auth_router)
+app.include_router(auth_router)
 app.include_router(blog_router)

@@ -1,4 +1,7 @@
 from pydantic import BaseModel
+
+
+# blog
 class NamesSchema(BaseModel):
     name : str 
     first_name : str = None
@@ -9,3 +12,13 @@ class ResponseNamesSchema(NamesSchema):
 
 
 
+# authentication
+class LoginResponseSchema(BaseModel):
+    token: str
+    user_id: int
+    detail: str
+
+
+class LoginRequestSchema(BaseModel):
+    username: str
+    password: str

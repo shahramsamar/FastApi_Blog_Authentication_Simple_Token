@@ -7,7 +7,7 @@ from typing import Annotated, Optional, List
 from fastapi.security import HTTPBasicCredentials, HTTPBasic
 import secrets
 from fastapi.responses import JSONResponse
-
+from auth.bearer import TokenBearer
 
 
 router = APIRouter(tags=["Crud By Names"])
@@ -15,7 +15,7 @@ security = HTTPBasic()
 
 @router.get("/names", response_model=List[ResponseNamesSchema],
             status_code=status.HTTP_200_OK)
-async def names_list(search: Optional[str] = Query(None, description="searching names"),
+async def names_list(user : bool = Depends(TokenBearer()),search: Optional[str] = Query(None, description="searching names"),
                      db: Session = Depends(get_db)):
     data = db.query(UserModel).all()
     return data
