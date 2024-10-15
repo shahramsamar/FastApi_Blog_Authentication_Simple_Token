@@ -21,7 +21,7 @@ from models import Base
 target_metadata = Base.metadata
 
 5 # create model for track database make migrations
-alembic revision --autogenerate -m "created student model"
+alembic revision --autogenerate -m "created model"
 
 6 # migrate to database
 alembic upgrade heads
